@@ -36,24 +36,24 @@ class Education extends Component {
 
     if (edit) {
       return (
-        <div>
+        <div className="p-1">
           <form onSubmit={getInput} id="edu">
             <input
               type="text"
               id="school"
-              className="form-control form-control-lg"
+              className="form-control"
               defaultValue={school}
             />
             <input
               type="text"
               id="major"
-              className="form-control form-control-lg"
+              className="form-control"
               defaultValue={major}
             />
             <input
               type="text"
               id="date"
-              className="form-control form-control-lg"
+              className="form-control"
               defaultValue={dates}
             />
             <input type="submit" className="btn btn-primary" />
@@ -62,7 +62,7 @@ class Education extends Component {
       );
     } else {
       return (
-        <div className="p-2" onClick={setEdit}>
+        <div className="p-1" onClick={setEdit}>
           <p id="school">{school}</p>
           <p id="major">{major}</p>
           <p id="date">{dates}</p>

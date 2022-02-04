@@ -1,0 +1,23 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+.page {
+  max-width: 600px;
+  min-height: 900px;
+  height: 90vh;
+}
+
+/* .header {
+} */
+
+.contact-info {
+  font-size: 2vw;
+  word-break: break-all;
+}
+
+.main {
+  flex: 1;
+}

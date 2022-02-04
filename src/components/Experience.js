@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
+import uniqid from 'uniqid';
+import Overview from './Overview';
 
 class Experience extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      organization: 'Organization',
-      position: 'Position',
-      dates: 'Dates',
-      description: 'Description',
+      experience: {
+        organization: 'Organization',
+        position: 'Position',
+        dates: 'Dates',
+        description: 'Description',
+        id: uniqid(),
+      },
+      experiences: [],
       edit: false,
     };
-    this.getInput = this.getInput.bind(this);
-    this.setEdit = this.setEdit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onSubmitEntry = this.onSubmitEntry.bind(this);
   }
 
-  getInput = (e) => {
+  handleChange = () => {
+    this.setState({
+      experience: {
+        organization: document.querySelector('#organization').value,
+        position: document.querySelector('#position').value,
+        dates: document.querySelector('#dates').value,
+        description: document.querySelector('#description').value,
+        id: this.state.experience.id,
+      },
+    });
+  };
+
+  onSubmitEntry = (e) => {
     e.preventDefault();
     this.setState({
-      organization: document.querySelector('#organization').value,
-      position: document.querySelector('#position').value,
-      dates: document.querySelector('#dates').value,
-      description: document.querySelector('#description').value,
+      experiences: this.state.experiences.concat(this.state.experience),
       edit: false,
     });
   };
@@ -33,52 +48,57 @@ class Experience extends Component {
   };
 
   render() {
-    const { getInput, setEdit } = this;
-    const { organization, position, dates, description, edit } = this.state;
+    const { handleChange, onSubmitEntry, setEdit } = this;
+    const { edit, experiences } = this.state;
+    const { organization, position, dates, description } =
+      this.state.experience;
 
     if (edit) {
       return (
-        <div>
-          <div className="p-2">
-            <form onSubmit={getInput} id="exp">
-              <input
-                type="text"
-                id="organization"
-                className="form-control form-control-lg"
-                defaultValue={organization}
-              />
-              <input
-                type="text"
-                id="position"
-                className="form-control form-control-lg"
-                defaultValue={position}
-              />
-              <input
-                type="text"
-                id="dates"
-                className="form-control form-control-lg"
-                defaultValue={dates}
-              />
-              <input
-                type="text"
-                id="description"
-                className="form-control form-control-lg"
-                defaultValue={description}
-              />
-              <input type="submit" class="btn btn-primary" />
-            </form>
-          </div>
+        <div className="p-1">
+          <form onSubmit={onSubmitEntry} id="exp">
+            <input
+              onChange={handleChange}
+              type="text"
+              id="organization"
+              className="form-control"
+              defaultValue={organization}
+            />
+            <input
+              onChange={handleChange}
+              type="text"
+              id="position"
+              className="form-control"
+              defaultValue={position}
+            />
+            <input
+              onChange={handleChange}
+              type="text"
+              id="dates"
+              className="form-control"
+              defaultValue={dates}
+            />
+            <input
+              onChange={handleChange}
+              type="text"
+              id="description"
+              className="form-control"
+              defaultValue={description}
+            />
+            <input type="submit" className="btn btn-primary" />
+          </form>
         </div>
       );
     } else {
       return (
         <div>
-          <div className="p-2" onClick={setEdit} id="exp">
+          <div className="p-1" onClick={setEdit} id="exp">
             <p id="organization">{organization}</p>
             <p id="position">{position}</p>
             <p id="dates">{dates}</p>
             <p id="description">{description}</p>
           </div>
+          <Overview array={experiences} />
         </div>
       );
     }
