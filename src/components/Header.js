@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Input from './Input';
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div>
-        <h1>
-          <Input placeholder="Full Name" id="full-name" />
-        </h1>
-      </div>
-    );
-  }
-}
+const Header = () => {
+  return (
+    <>
+      <h1>
+        <Input id="full-name" placeholder="Full Name" />
+      </h1>
+    </>
+  );
+};
 
 export default Header;

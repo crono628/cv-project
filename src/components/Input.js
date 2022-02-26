@@ -1,74 +1,46 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class Input extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      placeholder: this.props.placeholder,
-      edit: false,
-      id: this.props.id,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.setEdit = this.setEdit.bind(this);
-  }
+const Input = (props) => {
+  const [value, setValue] = useState(undefined);
+  const [edit, setEdit] = useState(false);
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({
-      value: document.getElementById(`${this.props.id}`).value,
-      edit: false,
-    });
+    setValue(document.getElementById(`${props.id}`).value);
+    setEdit(false);
   };
 
-  handleChange = (e) => {
-    this.setState({
-      value: e.target.value,
-      edit: true,
-    });
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    setEdit(true);
   };
 
-  setEdit = (e) => {
-    this.setState({
-      edit: true,
-    });
+  const handleEdit = () => {
+    setEdit(true);
   };
 
-  render() {
-    const { edit, value, placeholder, id } = this.state;
-    const { type } = this.props;
-    const { handleSubmit, setEdit, handleChange } = this;
+  if (value === undefined || value === '' || edit) {
     return (
       <>
-        {value === '' ? (
-          <form onSubmit={handleSubmit}>
-            <input
-              onChange={handleChange}
-              type={type}
-              id={id}
-              placeholder={placeholder}
-            />
-          </form>
-        ) : value !== '' && !edit ? (
-          <div id={id} onClick={setEdit}>
-            {value}
-          </div>
-        ) : (
-          edit && (
-            <form onSubmit={handleSubmit}>
-              <input
-                onChange={handleChange}
-                type={type}
-                id={id}
-                value={value}
-              />
-            </form>
-          )
-        )}
+        <form onSubmit={handleSubmit}>
+          <input
+            onChange={handleChange}
+            id={props.id}
+            placeholder={props.placeholder}
+            value={value}
+          />
+        </form>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div id={props.id} onClick={handleEdit}>
+          {value}
+        </div>
       </>
     );
   }
-}
+};
 
 export default Input;
